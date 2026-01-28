@@ -1,0 +1,65 @@
+# ============================
+# ROS2 WORKSPACE (colcon)
+# ============================
+build/
+install/
+log/
+esr.jet
+carto_map_0.db3
+# ============================
+# AI / DEEP LEARNING MODELLEN
+# ============================
+*.pt
+*.pth
+*.onnx
+*.engine
+*.trt
+*.plan
+*.weights
+*.bin
+*.h5
+*.tflite
+*.npz
+*.npy
+
+# ============================
+# PYTHON & VIRTUAL ENVIRONMENTS
+# ============================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# ============================
+# JUPYTER NOTEBOOKS
+# ============================
+.ipynb_checkpoints/
+
+# ============================
+# CMAKE / BUILD ARTEFACTEN
+# ============================
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.so
+*.o
+*.out
+
+# ============================
+# AI OUTPUT / LOGS
+# ============================
+runs/
+output/
+results/
+
+# ============================
+# EDITOR / IDE
+# ============================
+.vscode/
+.idea/
+*.swp
+

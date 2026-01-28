@@ -1,0 +1,14 @@
+laser_filter:
+  ros__parameters:
+    filter1:
+      name: footprint_filter
+      type: laser_filters/LaserScanBoxFilter
+      params:
+        box_frame: base_link
+        min_x: -0.20
+        max_x: 0.20
+        min_y: -0.20
+        max_y: 0.20
+        min_z: -0.0
+        max_z: 0.3
+        invert: false

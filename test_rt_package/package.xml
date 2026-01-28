@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>test_rt_package</name>
+  <version>0.0.0</version>
+  <description>Testpackage voor minimale map_server launch</description>
+
+  <maintainer email="jij@example.com">Rita</maintainer>
+  <license>Apache-2.0</license>
+
+  <!-- Runtime dependencies (nodes die je launchfile gebruikt) -->
+  <exec_depend>nav2_map_server</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+
+  <!-- Launch system -->
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
+
+
