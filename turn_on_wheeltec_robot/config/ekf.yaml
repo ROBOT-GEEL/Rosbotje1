@@ -20,7 +20,7 @@ ekf_filter_node:
         debug: false               #是否开启“调试模式”，让 EKF 把所有运行日志写入文件。
         debug_out_file: /path/to/debug/file.txt #指定调试输出文件的路径（仅在debug: true时生效）。
 
-        publish_tf: true  # 是否发布 odom → base_link 的 tf 转换
+        publish_tf: true  # RT orig true 是否发布 odom → base_link 的 tf 转换
         publish_acceleration: false  # 是否发布线加速度话题/accel/filtered（一般不需要）
 
         # -------------------------------
@@ -31,9 +31,9 @@ ekf_filter_node:
         # odom_frame: odom_combined  RT ORIG        # 里程计坐标（连续、短期准、长期会漂）
         odom_frame: odom #RT orig odom_combined
         # base_link_frame: base_footprint RT ORIG   # 机器人自身坐标（随机器人移动）
-        base_link_frame: base_footprint
+        base_link_frame: base_footprint #Rt orig base_footprint
         # world_frame: odom_combined RT ORIG
-        world_frame: odom   #RT orig odom_combined# EKF输出使用哪个世界坐标(仅融合odom+imu则设置为odom的frame id)
+        world_frame: odom  #RT orig odom_combined# EKF输出使用哪个世界坐标(仅融合odom+imu则设置为odom的frame id)
         # -------------------------------
         # 传感器输入：Odom（编码器）
         # -------------------------------

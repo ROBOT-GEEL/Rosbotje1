@@ -27,13 +27,13 @@ amcl:
     pf_z: 0.99                      #粒子过滤器群体密度
     recovery_alpha_fast: 0.0        #快速平均权重过滤器的指数衰减率，用于决定何时通过添加随机姿势进行恢复。
     recovery_alpha_slow: 0.0        #慢速平均权重过滤器的指数衰减率，用于决定何时通过添加随机姿势进行恢复。
-    resample_interval: 1            #重采样之前所需的过滤器更新次数
+    resample_interval: 1            #RT orig 1 重采样之前所需的过滤器更新次数
     robot_model_type: "nav2_amcl::DifferentialMotionModel" #插件类的完全限定类型。
     #选项为“nav2_amcl::DifferentialMotionModel”和“nav2_amcl::OmniMotionModel”。
     save_pose_rate: 0.5             #将最后估计的姿势和协方差存储到参数服务器的最大速率（Hz）
     sigma_hit: 0.2                 #模型的 z_hit 部分中使用的高斯模型的标准差
     tf_broadcast: true              #将其设置为 false 以防止 amcl 发布全局框架和里程计框架之间的变换
-    transform_tolerance: 1.0        #发布转换的容差
+    transform_tolerance: 0.3        #RT orig 1.0 发布转换的容差
     update_min_a: 0.2              #执行过滤器更新之前需要进行旋转运动。
     update_min_d: 0.25             #执行过滤器更新之前需要进行平移运动
     z_hit: 0.5                      #模型的 z_hit 部分的混合权重，所有使用的 z 权重之和必须为 1。
