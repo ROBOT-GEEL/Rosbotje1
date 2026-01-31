@@ -48,24 +48,7 @@ def spawn_robot_nodes(context, *args, **kwargs):
             arguments=[urdf_path],
         ),
 
-        # base → laser
-     	#RT hieronder base_footprint vervangen door base_link en terugezet
-        Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            name='base_to_laser',
-            arguments=[*map(str, model_cfg['base_to_laser']), 'base_link', 'laser_link'],
-        ),
-
-        # base → camera
-        #RT hieronder base_footprint vervangen door base_link en terugezet
-        Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            name='base_to_camera',
-            arguments=[*map(str, model_cfg['base_to_camera']), 'base_link', 'camera_link'],
-        ),
-      
+       
         # base → link
         Node(
             package='tf2_ros',
@@ -73,14 +56,7 @@ def spawn_robot_nodes(context, *args, **kwargs):
             name='base_to_link',
             arguments=[*map(str, model_cfg['base_to_link']), 'base_footprint', 'base_link'],
         ),
-        # base → gyro
-          #RT hieronder base_footprint vervangen door base_link en terugezet
-        Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            name='base_to_gyro',
-            arguments=[*map(str, model_cfg['base_to_gyro']), 'base_link', 'gyro_link'],
-        ),
+       
     ]
     
     return actions

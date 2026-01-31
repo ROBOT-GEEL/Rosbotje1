@@ -11,10 +11,10 @@ x10:
       packet_rate: 188.0          # PCAP文件回放速率，离线解析PCAP数据时使用
 
       # 点云处理参数
-      frame_id: "laser"      # RT orig laser 坐标系名称
+      frame_id: "laser_link"      # RT orig laser 坐标系名称
       pointcloud_topic: "lslidar_point_cloud"  # 点云话题名
       laserscan_topic: "/scan"     # 发布 LaserScan 数据话题名称
-      use_time_service: true     # Rt orig false否使用授时(GPS PTP NTP)
+      use_time_service: false     # Rt orig false否使用授时(GPS PTP NTP)
       use_first_point_time: false # 是否使用每帧第一个点的时间做为点云时间
       publish_scan: true          # LaserScan输出控制
       use_high_precision: false   # 是否使用高精度模式(laserscan) N10建议开启

@@ -39,7 +39,7 @@ def include_lidar_launch(context, *args, **kwargs):
                         name='lslidar_driver_node',
                         namespace='cx',
                         parameters=[cx_cfg],
-                        remappings=[('/scan', '/scan_raw')], # Remapping voor cx
+                        #remappings=[('/scan', '/scan_raw')], # Remapping voor cx filter RT
                         output='screen'
                     ),
                     IncludeLaunchDescription(
