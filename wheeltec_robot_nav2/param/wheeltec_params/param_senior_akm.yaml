@@ -6,7 +6,7 @@ amcl:
     alpha3: 0.2  #里程计的翻译估计中来自translation的预期过程噪声
     alpha4: 0.4  #里程计的平移估计中因旋转而产生的预期过程噪声
     alpha5: 0.2  #仅适用于 Omni 型号：translation噪音
-    base_frame_id: "base_footprint" #机器人底座框架 
+    base_frame_id: "base_link" #RT orig base_footprint 机器人底座框架 
     introspection_mode: "disabled" #启用调试模式，这将发布额外的调试信息 
     beam_skip_distance: 0.5         #忽略似然场模型中大多数粒子不同意的光束。考虑跳过的最大距离（米）
     beam_skip_error_threshold: 0.9  #由于收敛性不好，未匹配地图后强制进行完全更新的光束百分比
@@ -66,7 +66,7 @@ bt_navigator:
     transform_tolerance: 0.1 #变换容差
     goal_reached_tol: 0.25 #接受姿势作为目标的容忍度(m)
     global_frame: map
-    robot_base_frame: base_footprint
+    robot_base_frame: base_link  #RT orig base_footprin
     odom_topic: /odom_combined #RT orig /odom_combined
     bt_loop_duration: 10        #BT 执行每次迭代的持续时间（以毫秒为单位
     default_server_timeout: 20  #BT 操作节点等待操作服务器确认时的默认超时值（以毫秒为单位）
@@ -99,8 +99,8 @@ controller_server:
 
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
-      required_movement_radius: 0.5            #所需运动半径
-      movement_time_allowance: 10.0            #移动时间容差
+      required_movement_radius: 0.2            #RT orig 0.5 所需运动半径
+      movement_time_allowance: 15.0            #RT orig 10.0 移动时间容差
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.25                  #xy 目标容差
@@ -123,9 +123,9 @@ controller_server:
       ax_min: -1.5
       ay_max: 0.0
       az_max: 1.5
-      iteration_count: 1 #迭代次数
-      prune_distance: 1.5 #路径上距离机器人最近点的距离（米）
-      enforce_path_inversion: true
+      iteration_count: 3 #RT orig 1 迭代次数
+      prune_distance: 0.8 #RT orig 1.5 路径上距离机器人最近点的距离（米）
+      enforce_path_inversion: false #RT orig true 
       transform_tolerance: 0.5 #使用 TF（s）进行数据转换的时间容差 RT orig 0.1
       temperature: 0.3 #根据成本选择轨迹，0表示使用成本最佳的控制，巨大的值将导致仅取所有轨迹的平均值而不考虑成本。
       gamma: 0.015 #平滑度（高）和低能耗（低）之间的权衡,保持默认值
@@ -161,7 +161,7 @@ controller_server:
         critical_weight: 30.0 #应用于临界碰撞的权重，用于collision_margin_distance防止近距离碰撞
         consider_footprint: true # RT orig false 是否使用点成本（如果机器人是圆形的或者计算能力低）或计算 SE2 足迹成本
         collision_cost: 10000.0 #应用于轨迹中真实碰撞的成本。
-        collision_margin_distance: 0.2 # Rt orig 0.1 碰撞边缘距离，应该设置在0.05-0.2之间，请确保将此参数设置为预计机器人需要穿越的最窄空间
+        collision_margin_distance: 0.1 # RT orig 0.1 碰撞边缘距离，应该设置在0.05-0.2之间，请确保将此参数设置为预计机器人需要穿越的最窄空间
         near_goal_distance: 0.4 #靠近目标的距离（米）停止应用优先障碍物项，以允许机器人平稳地收敛到靠近障碍物的目标姿势，0.5 --> 0.6 -->0.3(Tues) 
         cost_scaling_factor: 5.0
         inflation_radius: 0.15  #膨胀半径，仅限Humble
@@ -211,23 +211,26 @@ local_costmap:
       update_frequency: 5.0    #成本地图更新频率
       publish_frequency: 2.0   #将成本图发布到话题的频率
       global_frame: odom    #RT origineel op map  #全局框架
-      robot_base_frame: base_footprint  #机器人底座框架
+      robot_base_frame: base_link  #RT orig base_footprint 机器人底座框架
       use_sim_time: False  #仿真时间
       rolling_window: true #成本地图是否应随机器人基座框架滚动
-      width: 2          #RT orig 3   #代价地图的宽度（m）
-      height: 2         #RT orig 3   #代价地图的高度（m）
+      width: 3          #RT orig 3   #代价地图的宽度（m）
+      height: 3         #RT orig 3   #代价地图的高度（m）
       resolution: 0.05     #代价地图1像素的分辨率，以米为单位
       #robot_radius: 0.20   #机器人半径，如果未提供足迹坐标，则使用机器人半径。
       #footprint: "[ [-0.09, -0.185], [-0.09, 0.185], [0.4,0.185], [0.4, -0.185] ]" RT Orig
-      footprint: "[ [-0.24, -0.185], [-0.24, 0.185], [0.24,0.185], [0.24, -0.185] ]"
+      footprint: "[ [-0.25, -0.185], [-0.25, 0.185], [0.25,0.17], [0.25, -0.185] ]"
+      #footprint_padding: 0.02   #RT toegevoegd
+      
       plugins: ["voxel_layer","inflation_layer"] #插件包括:{“体素层”，“障碍层”，“膨胀层”}
       inflation_layer:                             #膨胀层参数
         plugin: "nav2_costmap_2d::InflationLayer"  #膨胀层插件。
-        cost_scaling_factor: 2.0                   #Rt orig 3.0 成本缩放因子，决定障碍物成本随距离的递减速度。
-        inflation_radius: 0.55                     #RT orig 0.1 膨胀半径
+        cost_scaling_factor: 3.0                   #Rt orig 3.0 成本缩放因子，决定障碍物成本随距离的递减速度。
+        inflation_radius: 0.1                     #RT orig 0.1 膨胀半径
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"      #体素层插件。
         enabled: True
+        #footprint_clearing_enabled: true      #RT toegevoegd
         publish_voxel_map: True
         origin_z: 0.0                              #体素地图的起始Z坐标
         z_resolution: 0.05                         #体素地图的Z轴分辨率
@@ -241,10 +244,11 @@ local_costmap:
           clearing: True                            #是否启用障碍物清除功能
           marking: True                             #是否启用障碍物标记功能
           data_type: "LaserScan"                    #数据类型
-          raytrace_max_range: 10.0                  #控制光线追踪从代价地图中清除障碍物的最大范围 
-          raytrace_min_range: 0.3                 #RT orig 0.0控制光线追踪从代价地图中清除障碍物的最大范围 
+          raytrace_max_range: 10.0                 # RT orig 10 控制光线追踪从代价地图中清除障碍物的最大范围 
+          raytrace_min_range: 0.05                #RT orig 0.0控制光线追踪从代价地图中清除障碍物的最大范围 
           obstacle_max_range: 3.0                   #控制代价地图上标记障碍物的最大范围
-          obstacle_min_range: 0.0                   #Rt orig 0.0控制代价地图上标记障碍物的最小范围
+          obstacle_min_range: 0.05                   #Rt orig 0.0控制代价地图上标记障碍物的最小范围
+          inf_is_valid: false                        #RT ← VOEG TOE: Negeer infinite readings
 
       always_send_full_costmap: True                 #是否每次更新时都发送完整的成本图，而不是更新
   local_costmap_client:
@@ -260,17 +264,19 @@ global_costmap:
       update_frequency: 1.0             #成本地图更新频率
       publish_frequency: 1.0            #将成本图发布到话题的频率
       global_frame: map    #RT was orig map            #全局框架
-      robot_base_frame: base_footprint  #机器人底座框架
+      robot_base_frame: base_link  #RT orig base_footprint 机器人底座框架
       use_sim_time: False               #仿真时间 
       #robot_radius: 0.20                #机器人半径
       #footprint: "[ [-0.09, -0.185], [-0.09, 0.185], [0.4,0.185], [0.4, -0.185] ]" RT orig
-      footprint: "[ [-0.24, -0.185], [-0.24, 0.185], [0.24,0.185], [0.24, -0.185] ]"
+      footprint: "[ [-0.25, -0.185], [-0.25, 0.185], [0.25,0.17], [0.25, -0.185] ]"
+   
       resolution: 0.05                  #全局地图1像素的分辨率，以米为单位
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"] #插件包括：{“静态层”，“障碍层”，“膨胀层”}
       obstacle_layer:  #障碍层参数
         plugin: "nav2_costmap_2d::ObstacleLayer" #障碍层插件
         enabled: True
+        #footprint_clearing_enabled: true      #RT toegevoegd
         observation_sources: scan                  #观测源
         scan:
           topic: /scan
@@ -279,15 +285,16 @@ global_costmap:
           marking: True                            #是否启用障碍物标记功能
           data_type: "LaserScan"                   #数据类型
           raytrace_max_range: 10.0                 #控制光线追踪从代价地图中清除障碍物的最大范围 
-          raytrace_min_range: 0.0                  #控制光线追踪从代价地图中清除障碍物的最大范围 
-          obstacle_max_range: 2.5                  #控制代价地图上标记障碍物的最大范围
-          obstacle_min_range: 0.0                  #控制代价地图上标记障碍物的最小范围
+          raytrace_min_range: 0.05                 #RT orig 0.0 控制光线追踪从代价地图中清除障碍物的最大范围 
+          obstacle_max_range: 2.5                #RT orig 2.5 控制代价地图上标记障碍物的最大范围
+          obstacle_min_range: 0.05                # RT orig 0.0控制代价地图上标记障碍物的最小范围
+          inf_is_valid: false                     #RT toegevoegd
       static_layer: #静态层参数
         plugin: "nav2_costmap_2d::StaticLayer"     #静态层插件
         map_subscribe_transient_local: True
       inflation_layer: #膨胀层参数
         plugin: "nav2_costmap_2d::InflationLayer"  #膨胀层插件
-        cost_scaling_factor: 3.0    #RT orig 10         #成本缩放因子，决定障碍物成本随距离的递减速度。
+        cost_scaling_factor: 10.0    #RT orig 10         #成本缩放因子，决定障碍物成本随距离的递减速度。
         inflation_radius: 0.15        #RT orig 0.25             #膨胀半径
       always_send_full_costmap: True               #是否每次更新时都发送完整的成本图，而不是更新
   global_costmap_client:
@@ -319,6 +326,7 @@ planner_server: #规划器服务器参数
     GridBased:
       plugin: "nav2_smac_planner/SmacPlannerHybrid" #Smac Hybrid-A* 规划器
       tolerance: 0.5                      # 如果无法达到精确的姿势，则规划的容差(单位m)
+      use_final_approach_orientation: false   #RT toegevoegd
       downsample_costmap: false           # 是否将代价图下采样至另一个分辨率以进行搜索
       downsampling_factor: 1              # 对代价图进行下采样的乘数因子
       allow_unknown: false                # 允许在未知空间搜索
