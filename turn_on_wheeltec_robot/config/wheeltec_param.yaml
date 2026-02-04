@@ -16,6 +16,7 @@ car_mode: senior_akm
 
 # 底盘超声波避障功能的开启与关闭  false关闭 true开启
 # 此项配置仅对有超声波硬件的车型有效
+#RT: Ultrasoon‑obstakelvermijding van het chassis aan/uit (false=uitgeschakeld)
 ranger_avoid_flag: false
 
 # 可选雷达型号 对应填入lidar_type
@@ -32,8 +33,12 @@ x10:
   #de volgende 2 lijnen aangepast RT , omdat ze volledige hoeken wegnemen. Behouden alleen de achterkant.
   #angle_disable_min: [30,120,290]         # 雷达扫描最小裁剪角度 填整数 例：12000 单位: 0.01°
   #angle_disable_max: [70,240,330]        # 雷达扫描最大裁剪角度 填整数 例：24000 单位: 0.01°
-  angle_disable_min: [30,120,290]         # 雷达扫描最小裁剪角度 填整数 例：12000 单位: 0.01°
-  angle_disable_max: [70,240,330]        # 雷达扫描最大裁剪角度 填整数 例：24000 单位: 0.01°
+  #angle_disable_min: [30,120,290]         # 雷达扫描最小裁剪角度 填整数 例：12000 单位: 0.01°
+  #angle_disable_max: [70,240,330]        # 雷达扫描最大裁剪角度 填整数 例：24000 单位: 0.01°
+  angle_disable_min: [3000, 11000, 20000, 29000]  #RT aangepast
+  angle_disable_max: [6000, 16000, 25000, 34000]  #RT aangepast
+  #angle_disable_min: [3000]  #RT aangepast
+  #angle_disable_max: [34000]  #RT aangepast
 
 # lscx系列多线雷达可修改内容
 lscx:
